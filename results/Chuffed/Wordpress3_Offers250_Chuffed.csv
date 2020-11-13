@@ -1,0 +1,10 @@
+Min Price, Type Array, Cpu Array, Memory Array, Storage Array, Price Array 
+1260,  225  225  182  182  182  225  225  225,    2    2    4    4    4    2    2    2,      3750      3750      7500      7500      7500      3750      3750      3750,      2000      2000      2000      2000      2000      2000      2000      2000,       126       126       210       210       210       126       126       126, 
+ Assignment Matrix 
+    1    0    0    0    0    1    1    0
+    0    1    0    0    0    0    0    1
+    0    0    0    0    0    0    0    0
+    0    0    1    0    0    0    0    0
+    0    0    0    1    1    0    0    0
+% time elapsed: 3.51 s
+% time elapsed: 3.51 s

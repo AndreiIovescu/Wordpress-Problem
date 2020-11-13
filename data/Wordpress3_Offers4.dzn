@@ -1,0 +1,25 @@
+% number of machines 
+M = 9;
+% number of components
+N = 5;
+% number of hardware requirements
+HR = 3;
+% number of virtual machines offers
+VMNR = 4;
+%
+WP = 3;
+% virtual machines offers
+vmOffers = [| 64, 976000, 1000, 
+            | 64, 488000, 8000,
+            | 32,  60000, 2000, 
+            | 16, 122000, 1000 |];
+             
+% minimum requirements for each component
+compReq = [| 2,  512, 1000,
+           | 2,  512, 2000,
+           | 4, 2048,  500,
+           | 4, 2048,  500,
+           | 4, 4000,  500 |];
+           
+% the cost of virtual machines
+prices = [8403, 9152, 2808, 1600];
