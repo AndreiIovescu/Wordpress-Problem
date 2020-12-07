@@ -14,7 +14,7 @@ var 0..1024 : v5;
 
 % creates a require provide relation between components alpha and beta
 predicate requireProvide( var int: alphaCompId, var int: betaCompId, int: alphaCompIdInstances, int: betaCompIdInstances ) 
-          = alphaCompId * betaCompIdInstances <= betaCompId * alphaCompIdInstances ;
+          = alphaCompId * alphaCompIdInstances <= betaCompId * betaCompIdInstances ;
 
 % sets a lower bound for the parameter compId
 predicate lowerBound (var int: compId, int: bound) =  compId >= bound;
@@ -41,7 +41,7 @@ constraint exclusiveDeployment (v3, v4);
 % create constraint 5 
 constraint exclusiveDeployment (v3, v5);
 % create constraint 6 
-constraint if v4 > 0 then lowerBound(v5,2) endif;
+constraint lowerBound(v5,2);
 % create constraint 7 
 constraint lowerBound(v2, 2);
 % create constraint 8 
