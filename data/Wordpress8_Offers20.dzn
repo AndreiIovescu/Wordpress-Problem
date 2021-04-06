@@ -1,5 +1,5 @@
 % number of machines 
-M = 17;
+M = 19;
 % number of components
 N = 5;
 % number of hardware requirements

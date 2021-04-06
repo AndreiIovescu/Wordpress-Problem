@@ -95,6 +95,11 @@ predicate requireProvide(int: alphaCompId,int: betaCompId, int: alphaCompIdInsta
   
   predicate requireProvide(int: alphaCompId,int: betaCompId, int: alphaCompIdInstances,int: betaCompIdInstances ) 
   = alphaCompIdInstances * sum (k in 1..M) (a[alphaCompId,k]) <= betaCompIdInstances * sum (k in 1..M)(a[betaCompId,k]);
+  
+  
+   predicate Provide(int: alphaCompId,int: betaCompId, int: alphaCompIdInstances) 
+  =  sum (k in 1..M) (a[alphaCompId,k]) <= alphaCompIdInstances * sum (k in 1..M)(a[betaCompId,k]);
+  
 
 % creates an exclusive deployment relation between components with id alpha and beta            
 predicate exclusiveDeployment(int: alphaCompId,int: betaCompId)
@@ -122,17 +127,16 @@ constraint link ();
 constraint link2();
 
 % DNS Balancer requires at least one instance of wordpress and dns balancer can serve at most 7 Wordpress instances
-constraint requireProvide(3, 1, 7, 1);
+constraint (sum (k in 1..M) (a[3,k]) > 0 ) -> Provide(1, 3, 7);
 
 % HTTP Balancer requires at least one wordpress instance and http balancer can serve at most 3 Wordpress instances.
-constraint requireProvide(4, 1, 3, 1);
+constraint (sum (k in 1..M) (a[4,k]) > 0 ) -> Provide(1, 4, 3);
 
 % Wordpress requires at least three instances of mysql and mysql can serve at most 2 Wordpress
 constraint requireProvide(1, 2, 2, 3);
 
 % only one type of Balancer must be deployed
 constraint exclusiveDeployment(3, 4);
-constraint exclusiveDeployment(3, 5);
 
 % Varnish should not be deployed on the same machine with MySQL, HTTP Balancer or DNS Balancer
 constraint conflict(5, {2,3,4});
@@ -140,10 +144,7 @@ constraint conflict(5, {2,3,4});
 % set the minimum number of Wordpress component instances to be deployed as a lower bound
 constraint lowerBound(1, WP);
 
-%constraint upperBound(1, WP);
-
 % if http balancer is deployed then at least 2 instances of varnish must be deployed too
-%constraint if H(4) == 1 then lowerBound(5, 2) endif;
 constraint lowerBound(5, 2);
 
 % at least 2 different entry points to the MySQL cluster
@@ -157,6 +158,8 @@ constraint conflict(3, {1,2,5});
 
 % balancer components must be placed on a single VM, so they are considered to be in conflict with all the other components
 constraint conflict(4, {1,2,5});
+
+%constraint forall(k in 1..M - 1)(price[k] >= price[k+1]);
 
 % solve the problem such that the cost of virtual machines is the minimal one
 solve minimize sum(p in price) (p);
